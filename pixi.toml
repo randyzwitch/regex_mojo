@@ -1,0 +1,58 @@
+[workspace]
+name = "regex_mojo"
+version = "0.1.0"
+description = "Unicode regular expressions with bounded automata and reusable matchers in pure Mojo"
+channels = [
+    "https://conda.modular.com/max-nightly",
+    "https://conda.modular.com/max",
+    "conda-forge",
+    "https://prefix.dev/pixi-build-backends",
+]
+platforms = ["linux-64", "linux-aarch64", "osx-arm64"]
+preview = ["pixi-build"]
+requires-pixi = "==0.84.2"
+
+[package]
+name = "regex_mojo"
+version = "0.1.0"
+description = "Unicode regular expressions with bounded automata and reusable matchers in pure Mojo"
+license = "MIT"
+license-file = "LICENSE"
+
+[package.build]
+backend = { name = "pixi-build-mojo", version = ">=0.2.7,<1" }
+source = { path = "." }
+
+[package.build.config.pkg]
+name = "regex_mojo"
+path = "regex_mojo"
+
+[package.host-dependencies]
+unicode_mojo = { git = "https://github.com/randyzwitch/unicode_mojo.git", rev = "2bcb4f34961960ff2ecac169bb7d48c276fcc85e" }
+mojo-compiler = "==1.3.0.dev2026111005"
+
+[package.run-dependencies]
+unicode_mojo = { git = "https://github.com/randyzwitch/unicode_mojo.git", rev = "2bcb4f34961960ff2ecac169bb7d48c276fcc85e" }
+mojo-compiler = "==1.3.0.dev2026111005"
+
+[dependencies]
+unicode_mojo = { git = "https://github.com/randyzwitch/unicode_mojo.git", rev = "2bcb4f34961960ff2ecac169bb7d48c276fcc85e" }
+mojo = "==1.3.0.dev2026111005"
+
+[tasks]
+test = "python3 scripts/run_tests.py"
+example = "mojo run -I . examples/search.mojo"
+format = "mblack --target-version mojo --line-length 80 regex_mojo tests examples"
+format-check = "mblack --check --target-version mojo --line-length 80 regex_mojo tests examples"
+precompile = "mkdir -p build && mojo precompile --Werror regex_mojo -o build/regex_mojo.mojoc"
+check = { depends-on = ["format-check", "test", "example", "precompile"] }
+
+[feature.oracle.dependencies]
+python = ">=3.11"
+polars = "==1.44.2"
+
+[feature.oracle.tasks]
+regenerate-corpus = "python3 scripts/regex_corpus.py"
+
+[environments]
+oracle = { features = ["oracle"], solve-group = "default" }
