@@ -6,10 +6,10 @@ compiles patterns once, searches borrowed UTF-8 spans, and keeps mutable
 matching state private to each worker. It depends only on the Mojo standard
 library and [unicode_mojo](https://github.com/randyzwitch/unicode_mojo).
 
-This is experimental software. The current compiler is pinned to
-`1.3.0.dev2026111005`; compiled Mojo packages require the compiler that
-produced them. Supported build platforms are Linux x86-64, Linux ARM64, and
-macOS ARM64.
+This is experimental software. The workspace accepts Mojo
+`>=1.3.0.dev2026112405,<2`. Use the same compiler to build the package and its
+consumer. Supported build platforms are Linux x86-64, Linux ARM64, and macOS
+ARM64.
 
 ## Install
 
@@ -21,7 +21,7 @@ include the `https://prefix.dev/pixi-build-backends` channel, along with
 ```toml
 [dependencies]
 regex_mojo = { git = "https://github.com/randyzwitch/regex_mojo.git", branch = "main" }
-mojo = "==1.3.0.dev2026111005"
+mojo = ">=1.3.0.dev2026112405,<2"
 ```
 
 Commit `pixi.lock` to record the resolved Git revision, or replace `branch`
