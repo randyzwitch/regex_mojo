@@ -1,0 +1,23 @@
+package:
+  name: regex_mojo
+  version: "0.1.0"
+
+source:
+  path: ..
+
+build:
+  noarch: generic
+  script:
+    - mkdir -p "$PREFIX/lib/mojo/regex_mojo"
+    - cp regex_mojo/*.mojo "$PREFIX/lib/mojo/regex_mojo/"
+
+requirements:
+  run:
+    - mojo-compiler >=1.3.0.dev2026111005,<2
+    - unicode_mojo
+
+about:
+  license: MIT
+  license_file:
+    - LICENSE
+    - THIRD_PARTY_NOTICES.md
